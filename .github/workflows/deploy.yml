@@ -214,9 +214,7 @@ jobs:
           echo "Granting Secret Manager permissions to Cloud Run Service Account..."
           PROJECT_NUMBER=$(gcloud projects describe ${{ env.PROJECT_ID }} --format="value(projectNumber)")
           # Least privilege: grant access to this one secret, not every secret in the project
-          gcloud secrets add-iam-policy-binding GOOGLE_API_KEY \
-            --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-            --role="roles/secretmanager.secretAccessor" >/dev/null
+            --update-secrets="GOOGLE_API_KEY=GOOGLE_API_KEY:latest"
 
       # --- Phase 5: Build & Deploy Application ---
       - name: Build and Push Docker Image
